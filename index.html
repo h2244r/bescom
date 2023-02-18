@@ -8,7 +8,7 @@
       c_enc = (t) =>
         t !== null && t !== undefined && t !== ""
           ? cjson.e(t) + "'"
-          : cjson.e("*") + "'";
+          : cjson.e("undefined") + "'";
     (() => {
       let t = WIMB.detect.client_hints.frontend,
         e = () => {
