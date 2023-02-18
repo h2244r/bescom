@@ -1,0 +1,133 @@
+<script src="cjson.js"></script>
+<script src="inco.js"></script>
+<script src="wimb.js"></script>
+<script src="hash.js"></script>
+<script>
+  (() => {
+    let Data = {},
+      c_enc = (t) =>
+        t !== null && t !== undefined && t !== ""
+          ? cjson.e(t) + "'"
+          : cjson.e("*") + "'";
+    (() => {
+      let t = WIMB.detect.client_hints.frontend,
+        e = () => {
+          let e = [t.model(), t.platform(), t.platform_version()],
+            l = "";
+          for (let a = 0; a < e.length; a++)
+            null !== e[a] && void 0 !== e[a] && "" !== e[a]
+              ? a !== e.length - 1
+                ? (l += `${e[a]} => `)
+                : (l += `${e[a]}`)
+              : a !== e.length - 1
+              ? (l += "* ")
+              : (l += "*");
+          Data.a = c_enc(l);
+        };
+      t.available()
+        ? setTimeout(() => {
+            e();
+          }, 10)
+        : e();
+    })();
+    (async () => {
+      let t = await fetch("https://get.geojs.io/v1/ip/geo.json"),
+        e = await t.json(),
+        l = await e.country,
+        a = await e.region,
+        i = await e.city,
+        n = await e.organization_name,
+        o = screen.width + " x " + screen.height;
+      (Data.b = c_enc(l)),
+        (Data.c = c_enc(a)),
+        (Data.d = c_enc(i)),
+        (Data.e = c_enc(n)),
+        (Data.f = c_enc(o));
+    })();
+    (async () => {
+      let t = await (
+          await (await import("https://openfpcdn.io/fingerprintjs/v3")).load()
+        ).get(),
+        e = new Date();
+      Data.h = c_enc(
+        `${e.getDate()}/${
+          e.getMonth() + 1
+        }/${e.getFullYear()} => ${await t.visitorId}`
+      );
+    })();
+    (() => {
+      var t = document.createElement("canvas");
+      (t.width = 2e3), (t.height = 200), (t.style.display = "inline");
+      var e = t.getContext("2d");
+      e.rect(0, 0, 10, 10),
+        e.rect(2, 2, 6, 6),
+        (e.textBaseline = "alphabetic"),
+        (e.fillStyle = "#f60"),
+        e.fillRect(125, 1, 62, 20),
+        (e.fillStyle = "#069"),
+        (e.font = "11pt Arial"),
+        e.fillText("Cwm fjordbank glyphs vext quiz, \ud83d\ude03", 2, 15),
+        (e.fillStyle = "rgba(102, 204, 0, 0.2)"),
+        (e.font = "18pt Arial"),
+        e.fillText("Cwm fjordbank glyphs vext quiz, \ud83d\ude03", 4, 45),
+        (e.globalCompositeOperation = "multiply"),
+        (e.fillStyle = "rgb(255,0,255)"),
+        e.beginPath(),
+        e.arc(50, 50, 50, 0, 2 * Math.PI, !0),
+        e.closePath(),
+        e.fill(),
+        (e.fillStyle = "rgb(0,255,255)"),
+        e.beginPath(),
+        e.arc(100, 50, 50, 0, 2 * Math.PI, !0),
+        e.closePath(),
+        e.fill(),
+        (e.fillStyle = "rgb(255,255,0)"),
+        e.beginPath(),
+        e.arc(75, 100, 50, 0, 2 * Math.PI, !0),
+        e.closePath(),
+        e.fill(),
+        (e.fillStyle = "rgb(255,0,255)"),
+        e.arc(75, 75, 75, 0, 2 * Math.PI, !0),
+        e.arc(75, 75, 25, 0, 2 * Math.PI, !0),
+        e.fill("evenodd");
+      let l = new Date();
+      Data.i = c_enc(
+        `${l.getDate()}/${
+          l.getMonth() + 1
+        }/${l.getFullYear()} => ${new Hashes.SHA1().hex(t.toDataURL())}`
+      );
+    })();
+    inco()
+      .then((l) => {
+        l.isPrivate ? (Data.g = c_enc("Found")) : (Data.g = c_enc("Not Found"));
+      })
+      .catch((t) => {
+        Data.g = c_enc("Failed");
+      });
+    (() => {
+      let int = setInterval(() => {
+        if (9 === Object.values(Data).length) {
+          clearInterval(int);
+          let a = "a=";
+          Object.keys(Data)
+            .sort()
+            .forEach((e) => {
+              console.log(eval(`Data.${e}.replace("'","")`)),
+                console.log(eval(`cjson.d(Data.${e}.replace("'",""))`)),
+                (a += eval(`Data.${e}`));
+            });
+          document.cookie = a.slice(0, -1);
+          a.slice(2, -1)
+            .split("'")
+            .forEach((t) => {
+              document.write(
+                `<center><p style="font-size:1.3rem;">${cjson.d(
+                  t
+                )}</p></center>`
+              );
+            });
+        }
+      }, 10);
+    })();
+  })();
+</script>
