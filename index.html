@@ -1,1 +1,79 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bescom Bill Calculator</title></head><style>*{margin:0;padding:0}#box{padding-top:10vh}#con{width:80%;padding:10px;text-align:center;border-radius:10px;background-color:#c7c7e9}button{margin-top:10px;padding:10px;border-radius:5px;background-color:#000;border-style:none;color:#fff}</style><body><div id="box"><center><h3>Bescom Bill Calculator</h3><input type="number" id="con" placeholder="Consumption..."><button onclick='(e=>{var o=e<50?7.9*e:395+8.9*(e-50),u=.09*o,e=.06*e;document.querySelector("#con").value=Math.round(2645+o+u+e)})(document.querySelector("#con").value);'>Calculate</button></center></div></body></html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Bescom Bill Calculator</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #box {
+        padding-top: 10vh;
+      }
+      #con {
+        width: 80%;
+        padding: 10px;
+        text-align: center;
+        border-radius: 10px;
+        background-color: #c7c7e9;
+      }
+      button {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #000;
+        border-style: none;
+        color: #fff;
+      }
+      select {
+        margin: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        border-style: double;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box">
+      <center>
+        <h3>Bescom Bill Calculator</h3>
+        <select name="Boar" id="Boar">
+          <option value="Boar_1">Boar 1</option>
+          <option value="Boar_2">Boar 2</option>
+        </select>
+        <input type="number" id="con" placeholder="Consumption..." />
+        <br />
+        <button id="old">OLD</button>
+        <button id="new">NEW</button>
+      </center>
+    </div>
+    <script>
+      var Consumption = document.querySelector("#con");
+      var boar = document.querySelector("#Boar");
+      var tax = 0.09;
+      document.querySelector("#old").addEventListener("click", () => {
+        con = Consumption.value;
+        kwh = boar.value === "Boar_1" ? 23 : 8;
+        if (con != "") {
+          var a = con < 50 ? 7.9 * con : 50 * 7.9 + (con - 50) * 8.9;
+          var b = a * 0.09;
+          var c = con * 0.06;
+          var d = kwh * 115;
+          document.querySelector("#con").value = Math.round(a + b + c + d);
+        }
+      });
+      document.querySelector("#new").addEventListener("click", () => {
+        con = Consumption.value;
+        kwh = boar.value === "Boar_1" ? 23 : 8;
+        if (con != "") {
+          var a = con * 8.5;
+          var b = a * tax;
+          var c = kwh * 200;
+          document.querySelector("#con").value = Math.round(a + b + c);
+        }
+      });
+    </script>
+  </body>
+</html>
