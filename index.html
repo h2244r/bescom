@@ -70,8 +70,12 @@
         if (con != "") {
           var a = con * 8.5;
           var b = a * tax;
-          var c = kwh * 200;
-          document.querySelector("#con").value = Math.round(a + b + c);
+          var c = con * 0.45;
+          var d = kwh * 200;
+          var rural = con * 0.3;
+          document.querySelector("#con").value = Math.round(
+            a + b + c + d - rural
+          );
         }
       });
     </script>
